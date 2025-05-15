@@ -15,8 +15,8 @@
 
 Product (Interface/Abstract Class) 
 
-- ทำหน้าที่เป็นสัญญา (Contract) ให้กับอ็อบเจกต์ทั้งหมดที่ถูกสร้างโดย Factory
-- เป็นคลาสฐานที่กำหนดพฤติกรรมร่วมของอ็อบเจกต์ที่ถูกสร้าง ในตัวอย่างใช้ BaseMonster
+- ทำหน้าที่เป็นสัญญา (Contract) ให้กับอ็อบเจกต์ทั้งหมดที่จะถูกสร้างโดย Factory
+- เป็นคลาสฐานที่กำหนดพฤติกรรมร่วมของอ็อบเจกต์ที่ถูกสร้าง ในตัวอย่างใช้ BaseMonster มี (attack, move, spacialAttack)
 ```kotlin
 interface  BaseMonster {
     fun attack()
