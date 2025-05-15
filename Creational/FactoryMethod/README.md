@@ -92,7 +92,7 @@ class SpawnZombie(
     healthPoint: Double = 20.0,
 ) : Monster(identityKey, damage, healthPoint) {
 
-    Overide factoryMethod() ให้ Class ConcreteCreator ส่ง ConcreteProduct กลับมา
+    //Overide factoryMethod() ให้ Class ConcreteCreator ส่ง ConcreteProduct กลับมา
     override fun spawnMonster(): BaseMonster {
         val mon = Zombie()
         return mon
