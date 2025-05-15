@@ -100,7 +100,7 @@ class SpawnZombie(
 }
 ```
 implement
-ทดลองการสร้าง Monster ขึ้นมา 1 ตัวจาก ConcreteCreator และลองทำการสั่งโจมตี้ player
+ทดลองการสร้าง Monster ขึ้นมา 1 ตัวจาก ConcreteCreator และลองทำการสั่งโจมตี Player
 ```kotlin
 fun callMonster(mon : Monster){
     mon.attackPlayer()
