@@ -49,7 +49,7 @@ Creator (Abstract Class หรือ Interface)
 - ประกาศเมธอด factoryMethod() ซึ่ง return Product
 - อาจมีเมธอดอื่น ๆ ที่ใช้ factoryMethod() ภายในเพื่อหลีกเลี่ยงการผูกกับคลาสคอนกรีต
 - บางครั้งเรียกว่า Factory
-- ในที่นี้เรากำหนดเป็น Monster โดยมีเมธอด spawnMonster() ที่จะเป็น factoryMethod() ในการ return BaseMonster หรือ Product ออกมา
+- ในที่นี้เรากำสร้าง Class ขึ้นมา Monster โดยมีเมธอด spawnMonster() ที่จะเป็น factoryMethod() ในการ return BaseMonster หรือ Product ออกมา
 ```kotlin
 abstract class Monster(
     private val identityKey: String,
@@ -86,7 +86,7 @@ abstract class Monster(
 ConcreteCreator
 - เป็นคลาสที่สืบทอดจาก Creator
 - Override เมธอด factoryMethod() เพื่อคืนค่าเป็น ConcreteProduct ที่เหมาะสม
-- ตัวอย่างคลาส spawnZombie เรีกยใช้ spawnMonster() ก็ได้จะ Zombie ที่เป็น ConcreteProduct
+- ตัวอย่างคลาส SpawnZombie เรีกยใช้ spawnMonster() ก็ได้จะ Zombie ที่เป็น ConcreteProduct
 - ผู้ใช้จะเรียกใช้ ConcreteCreator โดยไม่รู้ว่าอ็อบเจกต์จริงคืออะไร
 ```kotlin
 class SpawnZombie(
