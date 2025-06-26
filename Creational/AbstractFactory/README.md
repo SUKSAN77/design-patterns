@@ -20,7 +20,7 @@
 ---
 ## 📈 Diagram
 
-![Factory Method Diagram](./factory-method-diagram.jpg)
+![Abstract Factory Diagram](./abstract-factory-diagram.png)
 
 ## องค์ประกอบหลักของ Abstract Factory Pattern
 
