@@ -6,6 +6,6 @@ class HondaDiesel : Honda {
     }
 
     override fun createCar() {
-        println("create HondaHybrid success!!")
+        println("create Honda Diesel success!!")
     }
 }
