@@ -1,12 +1,13 @@
 import { Caretaker } from "./Caretaker/Caretaker";
+import { ItemState } from "./Memento/ItemMemento";
 import { Item } from "./Originator/Item";
 import { Sword } from "./Originator/Sword";
 
 class UpgradeClient {
   private item: Item;
-  private caretaker: Caretaker;
+  private caretaker: Caretaker<ItemState>;
 
-  constructor(item: Item, caretaker: Caretaker) {
+  constructor(item: Item, caretaker: Caretaker<ItemState>) {
     this.item = item;
     this.caretaker = caretaker;
   }
@@ -48,10 +49,14 @@ class UpgradeClient {
   }
 }
 
-const myItem = new Sword("Sword of the King", "Legendary", 100);
-const caretaker = new Caretaker(myItem);
-const upgradeClient = new UpgradeClient(myItem, caretaker);
+const main = () => {
+  const myItem = new Sword("Sword of the King", "Legendary", 100);
+  const caretaker = new Caretaker(myItem);
+  const upgradeClient = new UpgradeClient(myItem, caretaker);
 
-upgradeClient.enhancement(15); // Increasing attempts to see higher levels
+  upgradeClient.enhancement(15); // Increasing attempts to see higher levels
 
-myItem.showInfo(); // Show final item info  
+  myItem.showInfo(); // Show final item info
+};
+
+main();

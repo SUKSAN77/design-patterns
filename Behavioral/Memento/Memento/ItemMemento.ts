@@ -1,58 +1,80 @@
 import { Memento } from "./Memento";
 import { Attribute, ItemType } from "../type";
 
-export class ItemMemento implements Memento {
-  private name: string;
-  private type: ItemType;
-  private rarity: string;
-  private level: number;
-  private value: number;
-  private attackPower: number;
-  private attributes: Attribute[];
+export interface ItemState {
+  name: string;
+  type: ItemType;
+  rarity: string;
+  level: number;
+  value: number;
+  attackPower: number;
+  attributes: Attribute[];
+}
 
-  constructor(
-    name: string,
-    type: ItemType,
-    rarity: string,
-    level: number,
-    value: number,
-    attackPower: number,
-    attributes: Attribute[]
-  ) {
-    this.name = name;
-    this.type = type;
-    this.rarity = rarity;
-    this.level = level;
-    this.value = value;
-    this.attackPower = attackPower;
-    this.attributes = [...attributes]; // Clone the attributes array // Spread Operator
+export class ItemMemento implements Memento<ItemState> {
+  private state: ItemState;
+
+  constructor(state: ItemState) {
+    this.state = {
+      name: state.name,
+      type: state.type,
+      rarity: state.rarity,
+      level: state.level,
+      value: state.value,
+      attackPower: state.attackPower,
+      attributes: [...state.attributes],
+    };
   }
 
   getLevel(): number {
-    return this.level;
+    return this.state.level;
   }
 
   getName(): string {
-    return this.name;
+    return this.state.name;
   }
 
   getType(): ItemType {
-    return this.type;
+    return this.state.type;
   }
 
   getRarity(): string {
-    return this.rarity;
+    return this.state.rarity;
   }
 
   getValue(): number {
-    return this.value;
+    return this.state.value;
   }
 
   getAttackPower(): number {
-    return this.attackPower;
+    return this.state.attackPower;
   }
 
   getAttributes(): Attribute[] {
-    return [...this.attributes]; // Return a copy to prevent modification
+    return [...this.state.attributes]; // Return a copy to prevent modification
+  }
+
+  getState(): ItemState {
+    return {
+      name: this.state.name,
+      type: this.state.type,
+      rarity: this.state.rarity,
+      level: this.state.level,
+      value: this.state.value,
+      attackPower: this.state.attackPower,
+      attributes: [...this.state.attributes],
+    };
+  }
+
+  setState(state: ItemState): void {
+    this.state = {
+      name: state.name,
+      type: state.type,
+      rarity: state.rarity,
+      level: state.level,
+      value: state.value,
+      attackPower: state.attackPower,
+      attributes: [...state.attributes],
+    };
   }
 }

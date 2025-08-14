@@ -1,11 +1,11 @@
 import { Memento } from "../Memento/Memento";
 import { Originator } from "../Originator/Originator";
 
-export class Caretaker {
-  private history: Memento[] = [];
-  private originator: Originator;
+export class Caretaker<T> {
+  private history: Memento<T>[] = [];
+  private originator: Originator<T>;
 
-  constructor(originator: Originator) {
+  constructor(originator: Originator<T>) {
     this.originator = originator;
     this.addHistory(); // Save initial state
   }
@@ -16,10 +16,14 @@ export class Caretaker {
 
   undo() {
     if (this.history.length > 1) {
-      this.history.pop(); // ลบสถานะปัจจุบัน
-      this.originator.restoreMemento(this.history[this.history.length - 1]); // ใช้สถานะล่าสุดที่เหลือ // last index 
+      this.history.pop(); // Remove current state
+      this.originator.restoreMemento(this.history[this.history.length - 1]); // Restore last state
     } else {
       console.log("⚠️ Cannot undo anymore");
     }
+  }
+
+  getHistory(): Memento<T>[] {
+    return this.history;
   }
 }

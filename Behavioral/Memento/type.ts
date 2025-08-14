@@ -12,7 +12,7 @@ export enum AttributeType {
 
 export interface Attribute {
   type: AttributeType;
-  bonusDamge: number;
+  bonusDamage: number;
   description: string;
 }
 

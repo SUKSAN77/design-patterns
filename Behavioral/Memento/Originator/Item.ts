@@ -1,9 +1,10 @@
-import { ItemMemento } from "../Memento/ItemMemento";
 import { Memento } from "../Memento/Memento";
+import { ItemMemento } from "../Memento/ItemMemento";
 import { Originator } from "./Originator";
 import { Attribute, AttributeType, ItemType } from "../type";
+import { ItemState } from "../Memento/ItemMemento";
 
-export abstract class Item implements Originator {
+export abstract class Item implements Originator<ItemState> {
   protected name: string;
   protected type: ItemType;
   protected rarity: string;
@@ -26,30 +27,36 @@ export abstract class Item implements Originator {
     this.attackPower = attackPower;
   }
 
-  saveMemento(): Memento {
-    return new ItemMemento(
-      this.name,
-      this.type,
-      this.rarity,
-      this.level,
-      this.value,
-      this.attackPower,
-      this.attributes
-    );
+  saveMemento(): Memento<ItemState> {
+    const currentState: ItemState = {
+      name: this.name,
+      type: this.type,
+      rarity: this.rarity,
+      level: this.level,
+      value: this.value,
+      attackPower: this.attackPower,
+      attributes: [...this.attributes],
+    };
+    return new ItemMemento(currentState);
   }
 
-  restoreMemento(memento: Memento) {
-    this.name = memento.getName();
-    this.type = memento.getType();
-    this.rarity = memento.getRarity();
-    this.level = memento.getLevel();
-    this.value = memento.getValue();
-    this.attackPower = memento.getAttackPower();
-    this.attributes = memento.getAttributes();
+  restoreMemento(memento: Memento<ItemState>) {
+    const state = memento.getState();
+    this.name = state.name;
+    this.type = state.type;
+    this.rarity = state.rarity;
+    this.level = state.level;
+    this.value = state.value;
+    this.attackPower = state.attackPower;
+    this.attributes = [...state.attributes];
   }
 
-  getLevel(): number {
-    return this.level;
+  getAttackPower(): number {
+    return this.attackPower;
+  }
+
+  getAttributes(): Attribute[] {
+    return this.attributes;
   }
 
   getName(): string {
@@ -64,22 +71,17 @@ export abstract class Item implements Originator {
     return this.rarity;
   }
 
+  getLevel(): number {
+    return this.level;
+  }
+
   getValue(): number {
     return this.value;
-  }
-
-  getAttackPower(): number {
-    return this.attackPower;
-  }
-
-  getAttributes(): Attribute[] {
-    return this.attributes;
   }
 
   abstract setLevel(level: number): void;
 
   protected generateRandomAttribute(): Attribute {
-
     const attributeList: AttributeType[] = [
       AttributeType.FireDamage,
       AttributeType.IceDamage,
@@ -89,31 +91,29 @@ export abstract class Item implements Originator {
 
     const randomType =
       attributeList[Math.floor(Math.random() * attributeList.length)];
-    // สุ่ม attribute จาก attributeList
-    //ผลลัพธ์จะเป็นเลขทศนิยมในช่วง [0, length)
 
     const rarityMultiplier = this.getRarityMultiplier();
     const baseValue = this.level * rarityMultiplier;
-    let bonusDamge = Math.round(baseValue * (1 + Math.random() * 0.5));
+    let bonusDamage = Math.round(baseValue * (1 + Math.random() * 0.5));
 
     let description = "";
     switch (randomType) {
       case AttributeType.FireDamage:
-        description = `Adds ${bonusDamge} fire damage`;
+        description = `Adds ${bonusDamage} fire damage`;
         break;
       case AttributeType.IceDamage:
-        description = `Adds ${bonusDamge} ice damage`;
+        description = `Adds ${bonusDamage} ice damage`;
         break;
       case AttributeType.PoisonDamage:
-        description = `Adds ${bonusDamge} poison damage`;
+        description = `Adds ${bonusDamage} poison damage`;
         break;
       case AttributeType.CriticalChance:
-        bonusDamge = Math.min(20, Math.round(baseValue / 2)); // Cap at 20%
-        description = `Increases critical hit chance by ${bonusDamge}%`;
+        bonusDamage = Math.min(20, Math.round(baseValue / 2)); // Cap at 20%
+        description = `Increases critical hit chance by ${bonusDamage}%`;
         break;
     }
 
-    return { type: randomType, bonusDamge, description };
+    return { type: randomType, bonusDamage, description };
   }
 
   private getRarityMultiplier(): number {
@@ -155,7 +155,6 @@ export abstract class Item implements Originator {
       do {
         newAttribute = this.generateRandomAttribute();
       } while (newAttribute.type === this.attributes[0].type);
-      // สุ่มใหม่ถ้าซ้ำกับ attribute ก่อนหน้า
 
       this.attributes.push(newAttribute);
       console.log(
@@ -176,7 +175,6 @@ export abstract class Item implements Originator {
       `🏹 Name: ${this.getName()} | Type: ${this.getType()} | Rarity: ${this.getRarity()} | Level: ${this.getLevel()} | Value: ${this.getValue()} | Attack: ${this.getAttackPower()}`
     );
 
-    // Show attributes if any
     if (this.attributes.length > 0) {
       console.log("✨ Attributes:");
       this.attributes.forEach((attr, index) => {
