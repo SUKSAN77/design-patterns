@@ -1,4 +1,3 @@
-export interface Memento<T> {
-    getState(): T;
-    setState(state: T): void;
+export interface Memento {
+    getSnapshot(): any;
 }

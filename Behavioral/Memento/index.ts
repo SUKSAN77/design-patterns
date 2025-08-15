@@ -1,13 +1,12 @@
 import { Caretaker } from "./Caretaker/Caretaker";
-import { ItemState } from "./Memento/ItemMemento";
 import { Item } from "./Originator/Item";
 import { Sword } from "./Originator/Sword";
 
 class UpgradeClient {
   private item: Item;
-  private caretaker: Caretaker<ItemState>;
+  private caretaker: Caretaker;
 
-  constructor(item: Item, caretaker: Caretaker<ItemState>) {
+  constructor(item: Item, caretaker: Caretaker) {
     this.item = item;
     this.caretaker = caretaker;
   }

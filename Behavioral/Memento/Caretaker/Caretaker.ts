@@ -1,11 +1,11 @@
 import { Memento } from "../Memento/Memento";
 import { Originator } from "../Originator/Originator";
 
-export class Caretaker<T> {
-  private history: Memento<T>[] = [];
-  private originator: Originator<T>;
+export class Caretaker {
+  private history: Memento[] = [];
+  private originator: Originator;
 
-  constructor(originator: Originator<T>) {
+  constructor(originator: Originator) {
     this.originator = originator;
     this.addHistory(); // Save initial state
   }
@@ -23,7 +23,7 @@ export class Caretaker<T> {
     }
   }
 
-  getHistory(): Memento<T>[] {
+  getHistory(): Memento[] {
     return this.history;
   }
 }

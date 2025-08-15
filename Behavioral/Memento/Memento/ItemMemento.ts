@@ -1,80 +1,70 @@
 import { Memento } from "./Memento";
 import { Attribute, ItemType } from "../type";
 
-export interface ItemState {
-  name: string;
-  type: ItemType;
-  rarity: string;
-  level: number;
-  value: number;
-  attackPower: number;
-  attributes: Attribute[];
-}
+export class ItemMemento implements Memento {
+  private name: string;
+  private type: ItemType;
+  private rarity: string;
+  private value: number;
+  private level: number = 1;
+  private attackPower: number = 0;
+  private attributes: Attribute[] = [];
 
-export class ItemMemento implements Memento<ItemState> {
-  private state: ItemState;
-
-  constructor(state: ItemState) {
-    this.state = {
-      name: state.name,
-      type: state.type,
-      rarity: state.rarity,
-      level: state.level,
-      value: state.value,
-      attackPower: state.attackPower,
-      attributes: [...state.attributes],
-    };
+  constructor(
+    name: string,
+    type: ItemType,
+    rarity: string,
+    value: number,
+    level: number,
+    attackPower: number,
+    attributes: Attribute[]
+  ) {
+    this.name = name;
+    this.type = type;
+    this.rarity = rarity;
+    this.value = value;
+    this.level = level;
+    this.attackPower = attackPower;
+    this.attributes = attributes;
   }
 
   getLevel(): number {
-    return this.state.level;
+    return this.level;
   }
 
   getName(): string {
-    return this.state.name;
+    return this.name;
   }
 
   getType(): ItemType {
-    return this.state.type;
+    return this.type;
   }
 
   getRarity(): string {
-    return this.state.rarity;
+    return this.rarity;
   }
 
   getValue(): number {
-    return this.state.value;
+    return this.value;
   }
 
   getAttackPower(): number {
-    return this.state.attackPower;
+    return this.attackPower;
   }
 
   getAttributes(): Attribute[] {
-    return [...this.state.attributes]; // Return a copy to prevent modification
+    return [...this.attributes]; // Return a copy to prevent modification
   }
 
-  getState(): ItemState {
+  getSnapshot() {
     return {
-      name: this.state.name,
-      type: this.state.type,
-      rarity: this.state.rarity,
-      level: this.state.level,
-      value: this.state.value,
-      attackPower: this.state.attackPower,
-      attributes: [...this.state.attributes],
-    };
-  }
-
-  setState(state: ItemState): void {
-    this.state = {
-      name: state.name,
-      type: state.type,
-      rarity: state.rarity,
-      level: state.level,
-      value: state.value,
-      attackPower: state.attackPower,
-      attributes: [...state.attributes],
+      name: this.name,
+      type: this.type,
+      rarity: this.rarity,
+      level: this.level,
+      value: this.value,
+      attackPower: this.attackPower,
+      attributes: [...this.attributes],
     };
   }
 }

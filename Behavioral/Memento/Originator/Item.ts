@@ -2,9 +2,8 @@ import { Memento } from "../Memento/Memento";
 import { ItemMemento } from "../Memento/ItemMemento";
 import { Originator } from "./Originator";
 import { Attribute, AttributeType, ItemType } from "../type";
-import { ItemState } from "../Memento/ItemMemento";
 
-export abstract class Item implements Originator<ItemState> {
+export abstract class Item implements Originator {
   protected name: string;
   protected type: ItemType;
   protected rarity: string;
@@ -27,28 +26,27 @@ export abstract class Item implements Originator<ItemState> {
     this.attackPower = attackPower;
   }
 
-  saveMemento(): Memento<ItemState> {
-    const currentState: ItemState = {
-      name: this.name,
-      type: this.type,
-      rarity: this.rarity,
-      level: this.level,
-      value: this.value,
-      attackPower: this.attackPower,
-      attributes: [...this.attributes],
-    };
-    return new ItemMemento(currentState);
+  saveMemento(): Memento {
+    return new ItemMemento(
+      this.name,
+      this.type,
+      this.rarity,
+      this.value,
+      this.level,
+      this.attackPower,
+      this.attributes
+    );
   }
 
-  restoreMemento(memento: Memento<ItemState>) {
-    const state = memento.getState();
-    this.name = state.name;
-    this.type = state.type;
-    this.rarity = state.rarity;
-    this.level = state.level;
-    this.value = state.value;
-    this.attackPower = state.attackPower;
-    this.attributes = [...state.attributes];
+  restoreMemento(memento: Memento) {
+    const snapshot = memento.getSnapshot();
+    this.name = snapshot.name;
+    this.type = snapshot.type;
+    this.rarity = snapshot.rarity;
+    this.level = snapshot.level;
+    this.value = snapshot.value;
+    this.attackPower = snapshot.attackPower;
+    this.attributes = [...snapshot.attributes];
   }
 
   getAttackPower(): number {
