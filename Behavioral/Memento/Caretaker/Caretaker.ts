@@ -17,7 +17,12 @@ export class Caretaker {
   undo() {
     if (this.history.length > 1) {
       this.history.pop(); // Remove current state
-      this.originator.restoreMemento(this.history[this.history.length - 1]); // Restore last state
+      const previous = this.history[this.history.length - 1];
+      if (previous) {
+        previous.restore();
+      } else {
+        console.log("⚠️ Cannot restore state");
+      }
     } else {
       console.log("⚠️ Cannot undo anymore");
     }
@@ -26,4 +31,11 @@ export class Caretaker {
   getHistory(): Memento[] {
     return this.history;
   }
+  showHistoryData() {
+    this.history.forEach((memento, index) => {
+      console.log(`\n🔄 History ${index + 1}:`);
+      memento.showInfo();
+    });
+  }
 }
+

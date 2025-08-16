@@ -1,3 +1,4 @@
 export interface Memento {
-    getSnapshot(): any;
+    restore(): void;
+    showInfo(): void;
 }

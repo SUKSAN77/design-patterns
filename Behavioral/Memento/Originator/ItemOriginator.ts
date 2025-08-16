@@ -3,7 +3,7 @@ import { ItemMemento } from "../Memento/ItemMemento";
 import { Originator } from "./Originator";
 import { Attribute, AttributeType, ItemType } from "../type";
 
-export abstract class Item implements Originator {
+export abstract class ItemOriginator implements Originator {
   protected name: string;
   protected type: ItemType;
   protected rarity: string;
@@ -28,6 +28,7 @@ export abstract class Item implements Originator {
 
   saveMemento(): Memento {
     return new ItemMemento(
+      this,
       this.name,
       this.type,
       this.rarity,
@@ -38,15 +39,23 @@ export abstract class Item implements Originator {
     );
   }
 
-  restoreMemento(memento: Memento) {
-    const snapshot = memento.getSnapshot();
-    this.name = snapshot.name;
-    this.type = snapshot.type;
-    this.rarity = snapshot.rarity;
-    this.level = snapshot.level;
-    this.value = snapshot.value;
-    this.attackPower = snapshot.attackPower;
-    this.attributes = [...snapshot.attributes];
+  setStateMemento(
+    name: string,
+    type: ItemType,
+    rarity: string,
+    value: number,
+    level: number,
+    attackPower: number,
+    attributes: Attribute[]
+  ) {
+    this.name = name;
+    this.type = type;
+    this.rarity = rarity;
+    this.value = value;
+    this.level = level;
+    this.attackPower = attackPower;
+    this.attributes = attributes.map(attr => ({ ...attr }));
+    this.updateAttributes();
   }
 
   getAttackPower(): number {

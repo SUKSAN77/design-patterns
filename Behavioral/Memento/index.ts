@@ -1,12 +1,12 @@
 import { Caretaker } from "./Caretaker/Caretaker";
-import { Item } from "./Originator/Item";
+import { ItemOriginator } from "./Originator/ItemOriginator";
 import { Sword } from "./Originator/Sword";
 
 class UpgradeClient {
-  private item: Item;
+  private item: ItemOriginator;
   private caretaker: Caretaker;
 
-  constructor(item: Item, caretaker: Caretaker) {
+  constructor(item: ItemOriginator, caretaker: Caretaker) {
     this.item = item;
     this.caretaker = caretaker;
   }
@@ -56,6 +56,9 @@ const main = () => {
   upgradeClient.enhancement(15); // Increasing attempts to see higher levels
 
   myItem.showInfo(); // Show final item info
+
+
+  caretaker.showHistoryData(); // Show history of upgrades
 };
 
 main();

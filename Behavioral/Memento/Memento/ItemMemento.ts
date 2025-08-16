@@ -1,7 +1,9 @@
 import { Memento } from "./Memento";
 import { Attribute, ItemType } from "../type";
+import { ItemOriginator } from "../Originator/ItemOriginator";
 
 export class ItemMemento implements Memento {
+  private originator: ItemOriginator;
   private name: string;
   private type: ItemType;
   private rarity: string;
@@ -11,6 +13,7 @@ export class ItemMemento implements Memento {
   private attributes: Attribute[] = [];
 
   constructor(
+    originator: ItemOriginator,
     name: string,
     type: ItemType,
     rarity: string,
@@ -19,6 +22,7 @@ export class ItemMemento implements Memento {
     attackPower: number,
     attributes: Attribute[]
   ) {
+    this.originator = originator;
     this.name = name;
     this.type = type;
     this.rarity = rarity;
@@ -56,15 +60,28 @@ export class ItemMemento implements Memento {
     return [...this.attributes]; // Return a copy to prevent modification
   }
 
-  getSnapshot() {
-    return {
-      name: this.name,
-      type: this.type,
-      rarity: this.rarity,
-      level: this.level,
-      value: this.value,
-      attackPower: this.attackPower,
-      attributes: [...this.attributes],
-    };
+  restore() {
+    this.originator.setStateMemento(
+      this.name,
+      this.type,
+      this.rarity,
+      this.value,
+      this.level,
+      this.attackPower,
+      this.attributes
+    );
+  }
+
+   showInfo() {
+    console.log(
+      `🏹 Name: ${this.getName()} | Type: ${this.getType()} | Rarity: ${this.getRarity()} | Level: ${this.getLevel()} | Value: ${this.getValue()} | Attack: ${this.getAttackPower()}`
+    );
+
+    if (this.attributes.length > 0) {
+      console.log("✨ Attributes:");
+      this.attributes.forEach((attr, index) => {
+        console.log(` ${index + 1}. ${attr.description}`);
+      });
+    }
   }
 }

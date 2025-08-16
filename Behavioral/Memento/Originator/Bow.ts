@@ -1,7 +1,7 @@
-import { Item } from "./Item";
 import { ItemType } from "../type";
+import { ItemOriginator } from "./ItemOriginator";
 
-export class Bow extends Item {
+export class Bow extends ItemOriginator {
   constructor(name: string, rarity: string, value: number) {
     super(name, ItemType.Bow, rarity, value, 40);
   }
